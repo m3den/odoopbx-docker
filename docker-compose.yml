@@ -1,0 +1,41 @@
+services:
+
+  agent:
+    build:
+      context: ./
+      dockerfile: Dockerfile.agent
+    container_name: agent
+    ipc: host
+    depends_on:
+      - asterisk
+    network_mode: host
+    # Required to manage host's ipsets.
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - asterisk_lib:/var/lib/asterisk
+      - asterisk_spool:/var/spool/asterisk
+      - asterisk_log:/var/log/asterisk
+      - ./etc/agent/local.conf:/etc/odoopbx/local.conf
+      - ./etc/asterisk/:/etc/asterisk/
+
+  asterisk:
+    build:
+      context: ./
+      dockerfile: Dockerfile.asterisk
+    container_name: asterisk
+    network_mode: host
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - asterisk_lib:/var/lib/asterisk
+      - asterisk_spool:/var/spool/asterisk
+      - asterisk_log:/var/log/asterisk
+      - ./etc/asterisk/:/etc/asterisk/
+
+
+volumes:
+  asterisk_spool:
+  asterisk_lib:
+  asterisk_log:
+  asterisk_run:
