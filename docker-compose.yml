@@ -16,10 +16,11 @@ services:
     restart: unless-stopped
     volumes:
       - asterisk_lib:/var/lib/asterisk
-      - asterisk_spool:/var/spool/asterisk
+      # - asterisk_spool:/var/spool/asterisk
       - asterisk_log:/var/log/asterisk
       - ./etc/agent/local.conf:/etc/odoopbx/local.conf
       - ./etc/asterisk/:/etc/asterisk/
+      - ./out/asterisk/spool:/var/spool/asterisk
 
   asterisk:
     build:
@@ -31,9 +32,10 @@ services:
     restart: unless-stopped
     volumes:
       - asterisk_lib:/var/lib/asterisk
-      - asterisk_spool:/var/spool/asterisk
+      # - asterisk_spool:/var/spool/asterisk
       - asterisk_log:/var/log/asterisk
       - ./etc/asterisk/:/etc/asterisk/
+      - ./out/asterisk/spool:/var/spool/asterisk
       # - ./etc/asterisk2/:/etc/asterisk2/
 
 
